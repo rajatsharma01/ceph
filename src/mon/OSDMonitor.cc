@@ -732,6 +732,15 @@ public:
     Parent::dump(tbl);
 
     dump_stray(tbl);
+
+    *tbl << "" << "" << ""
+	 << si_t(pgm->osd_sum.kb)
+	 << si_t(pgm->osd_sum.kb_used << 10)
+	 << si_t(pgm->osd_sum.kb_avail << 10)
+	 << lowprecision_t(average_util)
+	 << ""
+	 << "TOTAL"
+	 << TextTable::endrow;
   }
 
 protected:
@@ -773,11 +782,7 @@ protected:
 public:
   string summary() {
     ostringstream out;
-    out << "TOTAL SIZE/USED/AVAIL: " << si_t(pgm->osd_sum.kb)
-	<< "/" << si_t(pgm->osd_sum.kb_used << 10)
-	<< "/" << si_t(pgm->osd_sum.kb_avail << 10) << "\n"
-	<< "AVG %USE: " << lowprecision_t(average_util) << "  "
-	<< "MIN/MAX VAR: " << lowprecision_t(min_var)
+    out << "MIN/MAX VAR: " << lowprecision_t(min_var)
 	<< "/" << lowprecision_t(max_var) << "  "
 	<< "STDDEV: " << lowprecision_t(dev());
     return out.str();
