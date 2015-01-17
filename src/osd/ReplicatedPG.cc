@@ -6421,6 +6421,8 @@ void ReplicatedPG::_write_copy_chunk(CopyOpRef cop, PGBackend::PGTransaction *t)
 	   << " " << cop->omap_header.length() << " omap header bytes"
 	   << " " << cop->omap_data.length() << " omap data bytes"
 	   << dendl;
+  // Make sure temp collection is present before attempt to create a temp_oid
+  (void)get_temp_coll(t);
   if (!cop->temp_cursor.attr_complete) {
     t->touch(cop->results.temp_oid);
     for (map<string,bufferlist>::iterator p = cop->attrs.begin();
